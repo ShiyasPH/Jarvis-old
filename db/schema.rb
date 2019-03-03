@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2019_03_03_034956) do
     t.boolean "expires"
     t.string "refresh_token"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["provider", "uid"], name: "index_users_on_provider_and_uid"
   end
 
 end
