@@ -12,6 +12,12 @@
 #  last_sign_in_ip     :inet
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  provider            :string
+#  uid                 :string
+#  token               :string
+#  expires_at          :integer
+#  expires             :boolean
+#  refresh_token       :string
 #
 
 class User < ApplicationRecord
