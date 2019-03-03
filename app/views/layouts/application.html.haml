@@ -11,6 +11,9 @@
     %br
 
     - if user_signed_in?
+      %p= current_user.name
+      %p= current_user.email
+      = image_tag current_user.avatar
       = link_to 'Sign out', destroy_user_session_path, method: :delete
     - else
       = link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path

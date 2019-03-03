@@ -18,6 +18,8 @@
 #  expires_at          :integer
 #  expires             :boolean
 #  refresh_token       :string
+#  name                :string
+#  avatar              :string
 #
 
 require 'rails_helper'

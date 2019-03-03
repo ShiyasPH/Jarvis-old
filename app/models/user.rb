@@ -18,6 +18,8 @@
 #  expires_at          :integer
 #  expires             :boolean
 #  refresh_token       :string
+#  name                :string
+#  avatar              :string
 #
 
 class User < ApplicationRecord
@@ -26,6 +28,10 @@ class User < ApplicationRecord
   # devise :database_authenticatable, :registerable,
   #        :recoverable, :rememberable, :validatable
   devise :omniauthable, :rememberable, :trackable, :omniauth_providers => [:google_oauth2]
+
+  validates :email, presence: true
+  validates :provider, presence: true
+  validates :uid, presence: true
 
   def self.from_omniauth(auth)
     # Sample `auth`:
@@ -91,6 +97,10 @@ class User < ApplicationRecord
       user.expires = auth.credentials.expires
       user.expires_at = auth.credentials.expires_at
       user.refresh_token = auth.credentials.refresh_token
+
+      user.email = auth.info.email
+      user.name = auth.info.first_name
+      user.avatar = auth.info.image
     end
   end
 end
