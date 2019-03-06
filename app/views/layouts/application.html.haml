@@ -8,17 +8,39 @@
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
   %body
-    %br
-
-    - if user_signed_in?
-      %p= current_user.name
-      %p= current_user.email
-      = image_tag current_user.avatar
-      = link_to 'Sign out', destroy_user_session_path, method: :delete
-    - else
-      = link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path
-
-    %p.notice= notice
-    %p.alert= alert
-
-    = yield
+    %header
+      %nav.navbar.navbar-expand-lg.navbar-light.bg-light
+        .container
+          = link_to 'Jarvis', root_path, class: 'navbar-brand'
+          %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", type: "button"}
+            %span.navbar-toggler-icon
+          #navbarSupportedContent.collapse.navbar-collapse
+            %ul.navbar-nav.ml-auto
+              %li.nav-item.active
+                %a.nav-link{href: "#"}
+                  Home
+                  %span.sr-only (current)
+              - if user_signed_in?
+                %li.nav-item.dropdown
+                  %a#navbarDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
+                    = image_tag current_user.avatar, class: 'rounded-circle align-top', height: '20px'
+                    = current_user.name
+                  .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
+                    = link_to 'Account', root_path, class: 'dropdown-item'
+                    .dropdown-divider
+                    = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'dropdown-item'
+              - else
+                %li.nav-item
+                  = link_to "Sign in", user_google_oauth2_omniauth_authorize_path, class: 'nav-link'
+    %main.container.pt-3
+      - if notice
+        .alert.alert-success.alert-dismissible.fade.show{role: "alert"}
+          = notice
+          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", type: "button"}
+            %span{"aria-hidden" => "true"} &times;
+      - if alert
+        .alert.alert-danger.alert-dismissible.fade.show{role: "alert"}
+          = alert
+          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", type: "button"}
+            %span{"aria-hidden" => "true"} &times;
+      = yield
